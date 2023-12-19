@@ -176,8 +176,8 @@ if(isset($_POST["category_id"])){
         <select class="form-select" name="category_id" id="category">
           <option value="0" selected>Plant Category</option>
           <?php foreach ($categories as $category) { ?>
-            <option value="<?php echo $category["category_id"]; ?>">
-              <?php echo $category["category_name"]; ?>
+            <option value="<?php echo $category->getId(); ?>">
+              <?php echo $category->getName(); ?>
             </option>
           <?php } ?>
         </select>
@@ -193,12 +193,12 @@ if(isset($_POST["category_id"])){
           <article class="product__card">
             <div class="product__circle"></div>
 
-            <img src="../asset/images/<?php echo $plant["plant_img"]; ?>" alt="" class="product__img">
+            <img src="../asset/images/<?php echo $plant->getIMG();?> " alt="" class="product__img">
 
-            <h3 class="product__title"><?php echo $plant["plant_name"]; ?></h3>
-            <span class="product__price"><?php echo $plant["plant_price"]; ?>$</span>
+            <h3 class="product__title"><?php echo $plant->getName(); ?></h3>
+            <span class="product__price"><?php echo $plant->getPrice();  ?>$</span>
             <form action="../controller/ADD_DEL_cart.php" method="post">
-              <input name="plant_id" type="hidden" value="<?php echo $plant["plant_id"]; ?>">
+              <input name="plant_id" type="hidden" value="<?php echo $plant->getID(); ?>">
               <button name="add" type="submit" class="button--flex product__button">
                 <i class="ri-shopping-bag-line"></i>
               </button>

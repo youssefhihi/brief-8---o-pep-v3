@@ -5,6 +5,21 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $dbconn = new Database();
+class categoryDAO{
+    private $ID;
+    private $name;
+  
+    public function __construct($ID, $name){
+      $this->ID = $ID;
+      $this->name = $name;
+    }
+    public function getId(){
+      return $this->ID;
+    }
+    public function getName(){
+      return $this->name;
+    }
+}
 
 class category
 {
@@ -19,9 +34,14 @@ class category
         try {
             $stmt = $this->db->prepare("SELECT category_id, category_name FROM category");
             $stmt->execute();
-            $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            return $categories;
+            $allCategories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $categories = array();
+                foreach($allCategories as $C){
+                $categories[] = new CategoryDAO($C['category_id'], $C['category_name']);
+                }
+                return $categories;
+            
+           
         } catch (PDOException $e) {
             echo $e->getMessage();
             return false;

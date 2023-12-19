@@ -6,6 +6,42 @@ error_reporting(E_ALL);
 
 $dbconn = new Database();
 
+class plantDAO{
+    private $ID;
+  private $name;
+  private $categoryID;
+  private $IMG;
+  private $price;
+  private $quantity;
+
+  public function __construct($ID, $name, $categoryID, $IMG, $price, $quantity){
+    $this->ID = $ID;
+    $this->name = $name;
+    $this->categoryID = $categoryID;
+    $this->IMG = $IMG;
+    $this->price = $price;
+    $this->quantity = $quantity;
+  }
+  public function getID(){
+    return $this->ID;
+  }
+  public function getName(){
+    return $this->name;
+  }
+  public function getCategoryID(){
+    return $this->categoryID;
+  }
+  public function getIMG(){
+    return $this->IMG;
+  }
+  public function getPrice(){
+    return $this->price;
+  }
+  public function getQuantity(){
+    return $this->quantity;
+  }
+}
+
 class plant
 {
     private $db;
@@ -21,7 +57,12 @@ class plant
             $stmt->bindParam(":id", $id,PDO::PARAM_INT);
           
             $stmt->execute();
-            $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $allcategories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $categories = array();
+            foreach($allcategories as $P){
+                $categories[] = new PlantDAO($P['plant_id'], $P['plant_name'], $P['category_id'], $P['plant_img'], $P['plant_price'], $P['quantity']);
+              }
+         
 
             return $categories;
         } catch (PDOException $e) {
@@ -34,9 +75,12 @@ class plant
         try {
             $stmt = $this->db->prepare("SELECT plants.*, category.category_name FROM plants JOIN category ON plants.category_id = category.category_id");
             $stmt->execute();
-            $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            return $categories;
+            $allplants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $plants = array();
+            foreach($allplants as $P){
+                $plants[] = new PlantDAO($P['plant_id'], $P['plant_name'], $P['category_id'], $P['plant_img'], $P['plant_price'], $P['quantity']);
+              }
+            return $plants;
         } catch (PDOException $e) {
             echo $e->getMessage();
             return false;
@@ -97,10 +141,14 @@ class plant
     $stmt = $this->db->prepare("SELECT * FROM plants WHERE plant_name LIKE :name");
     $param = '%' . $plant_name . '%';
     $stmt->bindParam(":name", $param, PDO::PARAM_STR);
-    $success = $stmt->execute();
-    if($success){
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    $stmt->execute();    
+    $allplants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $plants = array();
+    foreach($allplants as $P){
+        $plants[] = new PlantDAO($P['plant_id'], $P['plant_name'], $P['category_id'], $P['plant_img'], $P['plant_price'], $P['quantity']);
+      }
+    return $plants;
+    
 }
 
     

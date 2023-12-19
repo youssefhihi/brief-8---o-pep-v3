@@ -99,7 +99,7 @@ $themes = $theme_class->gettheme();
       
 
         <div class="user">
-          <img src="assets/imgs/customer01.jpg" alt="">
+          <img src="../asset/images/customer01.jpg" alt="">
         </div>
       </div>
 
@@ -152,7 +152,7 @@ $themes = $theme_class->gettheme();
       <div class="details">
         <div class="recentOrders">
           <div class="cardHeader">
-            <h2>Plant's Categories</h2>
+          <h2>Plant's Categories</h2>
             <a href="#" class="btn" onclick="openPopupC()">Add Category</a>
           </div>
           <div id="categoryPopup" class="popup">
@@ -177,12 +177,12 @@ $themes = $theme_class->gettheme();
 
 
 
-                  <td><?php echo $category["category_name"]; ?></td>
+                  <td><?php echo  $category->getName(); ?></td>
                   <td class="btns">
-                  <input type="hidden" value="<?php echo $category["category_id"]; ?>">
+                  <input type="hidden" value="<?php echo $category->getId(); ?>">
                   <button name="modifyCategory" class="btn update_btn">Modify</button>
                   <form action="../controller/ADD_DEL_category.php" method="post">
-                      <input type="hidden" name="category_id" value="<?php echo $category["category_id"]; ?>">
+                      <input type="hidden" name="category_id" value="<?php echo $category->getId();?>">
                        <button name="deleteCategory" class="btn bred" type="submit">Delete</button>
                   </form>
 
@@ -193,8 +193,8 @@ $themes = $theme_class->gettheme();
               }    ?>
               <div id="modifyPopup" class="popup">
                       <form class="popup-content" action="../controller/ADD_DEL_category.php" method="POST">
-                      <input type="hidden" name="category_id" value="<?php echo $category["category_id"]; ?>">
-                      <input type="hidden" name="category_name" value="<?php echo $category["category_name"]; ?>">                     
+                      <input type="hidden" name="category_id" value="<?php echo $category->getId(); ?>">
+                      <input type="hidden" name="category_name" value="<?php echo  $category->getName(); ?>">                     
                         <span class="close" onclick="closeModifyPopup()">&times;</span>
                         <label for="categoryName">New Category Name:</label>
                         <input name="updatedCategoryID" id="categoryID" type="hidden" value="">
@@ -223,7 +223,7 @@ $themes = $theme_class->gettheme();
               <select name="category_id">
                 <?php foreach ($categories as $category) {
                 ?>
-                  <option value="<?php echo $category["category_id"]; ?>"><?php echo $category["category_name"]; ?></option>
+                  <option value="<?php echo $category->getId(); ?>"><?php echo $category->getName(); ?></option>
                 <?php  } ?>
               </select>
               <button type="submit" name="addPlant">Add</button>
@@ -243,13 +243,13 @@ $themes = $theme_class->gettheme();
               <?php foreach ($plants as $plant) {
               ?>
                 <tr>
-                  <td><img style="width: 50px;" src="../asset/images/<?php echo $plant["plant_img"]; ?>" alt=""></td>
-                  <td><?php echo $plant["plant_name"]; ?></td>
-                  <td><?php echo $plant["plant_price"]; ?>$</td>
-                  <td><?php echo $plant["category_name"]; ?></td>
+                  <td><img style="width: 50px;" src="../asset/images/<?php  echo $plant->getIMG(); ?>" alt=""></td>
+                  <td><?php echo $plant->getName(); ?></td>
+                  <td><?php echo $plant->getPrice(); ?>$</td>
+                  <td><?php echo $plant->getCategoryID()?></td>
                   <td>
                     <form action="../controller/ADD_DEL_plant.php" method="post">
-                      <input name="plant_id" type="hidden" value="<?php echo $plant['plant_id']; ?>">
+                      <input name="plant_id" type="hidden" value="<?php echo  $plant->getID(); ?>">
                       <button name="deletePlant" class="btn bred" type="submit">Delete</button>
                     </form>
                   </td>
@@ -260,6 +260,25 @@ $themes = $theme_class->gettheme();
             </tbody>
           </table>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   <!-- theme -->
